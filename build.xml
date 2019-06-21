@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<project name="LANChat" default="init" basedir=".">
+	<tstamp>  
+        <format property="now.date" pattern="yyyy-MM-dd" locale="zh" />  
+    </tstamp>
+	
+	<!--主要的系统环境属性 通过继承属性可以让子项目的相同属性直接使用-->
+	<property environment="env"/><!--取window,unix...的环境变量-->
+    <property name="java.home" value="${env.JAVA_HOME}"/>
+    <property name="ant.home"  value="${env.ANT_HOME}"/>
+	<property name="sys.classpath" value="${env.CLASSPATH}"/>
+	<property name="jmf.home" value="${env.JMF_HOME}"/>
+
+    
+	<property name="chatcommon" value="${basedir}/ChatCommon"/>
+	<property name="chatserver" value="${basedir}/ChatServer"/>
+	<property name="chatclient" value="${basedir}/Chating"/>
+    
+	<property name="chatcommon.jar" value="chat-common-${now.date}.jar" />
+
+
+
+	<target name="init">
+		 <antcall target="initchatcommon" ></antcall>
+		 <antcall target="initchatserver" ></antcall>
+		 <antcall target="initchatclient" ></antcall>
+	</target>
+
+	<target name="initchatcommon">
+		<ant antfile="build.xml" dir="${chatcommon}" inheritall="true" inheritrefs="true"/>
+	</target>
+	<target name="initchatserver">
+		<ant antfile="build.xml" dir="${chatserver}" inheritall="true" inheritrefs="true" />
+	</target>
+	<target name="initchatclient">
+		<ant antfile="build.xml" dir="${chatclient}" inheritall="true" inheritrefs="true"/>
+	</target>
+
+	<target name="clean">
+		<ant antfile="build.xml" dir="${chatclient}" target="clean" inheritall="true" inheritrefs="true"/>
+		<ant antfile="build.xml" dir="${chatcommon}" target="clean" inheritall="true" inheritrefs="true"/>
+		<ant antfile="build.xml" dir="${chatserver}" target="clean" inheritall="true" inheritrefs="true" />
+	</target>
+</project>
